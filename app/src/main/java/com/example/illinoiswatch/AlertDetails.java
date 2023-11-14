@@ -15,6 +15,7 @@ public class AlertDetails {
     }
 
     public String getAddress() {
+
         return address;
     }
 }

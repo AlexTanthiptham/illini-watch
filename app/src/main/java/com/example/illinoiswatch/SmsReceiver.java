@@ -1,45 +1,59 @@
 package com.example.illinoiswatch;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
+import android.util.Log;
 
 public class SmsReceiver extends BroadcastReceiver {
 
     private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
-    private static final String TAG = "SmsReceiver";
+
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(SMS_RECEIVED)) {
 
+
+        if (SMS_RECEIVED.equals(intent.getAction())) {
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
-                // Retrieve the SMS message received
                 Object[] pdus = (Object[]) bundle.get("pdus");
                 if (pdus != null) {
-                    System.out.println("test");
                     for (Object pdu : pdus) {
-                        SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdu);
-                        // Check if the sender is your service's number
-                        // in this case it should be remove
-                        String messageBody = smsMessage.getMessageBody();
-                        System.out.println((messageBody));
-                            // Parse the message body
-                        parseMessage(messageBody);
+                        try {
+                            SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdu);
+                            String messageBody = smsMessage.getMessageBody();
 
+                            AlertDetails details = parseMessage(messageBody);
+
+
+
+                            if (details != null) {
+                                Log.d(TAG, details.getEventType());
+                                Log.d(TAG,details.getAddress());
+
+                                //Intent localIntent = new Intent("com.example.ACTION_SMS_ALERT");
+                                //localIntent.putExtra("alertDetails", (CharSequence) details); // Ensure AlertDetails is Serializable or Parcelable
+                                //LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent);
+                            }
+
+
+
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
                     }
                 }
             }
         }
     }
 
-    private boolean checkSender(String sender) {
-        // Replace with your service's number or check logic
-        return sender.equals("YOUR_SERVICE_NUMBER");
-    }
+
     private static String extractEventType(String eventDetails) {
         String[] parts = eventDetails.split(" at ");
         return parts[0].trim();
@@ -56,6 +70,8 @@ public class SmsReceiver extends BroadcastReceiver {
         // Initialize as null; will stay null if the message doesn't match the criteria
         AlertDetails alertDetails = null;
 
+        Log.d(TAG, message);
+
         // Check if the message starts with the specified prefix
         if (message.startsWith("Illini-Alert")) {
             // Split the SMS message into sentences
@@ -63,8 +79,9 @@ public class SmsReceiver extends BroadcastReceiver {
             // Check if there are at least two sentences
             if (sentences.length >= 2) {
                 // The second sentence should contain the type of event and address
+                //System.out.println(sentences[0]);
                 String eventDetails = sentences[1];
-                System.out.println(eventDetails);
+                //System.out.println(eventDetails);
                 // Extract the event type and address
                 String eventType = extractEventType(eventDetails);
                 String address = extractAddress(eventDetails);
