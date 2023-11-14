@@ -1,6 +1,10 @@
 package com.example.illinoiswatch;
 
-public class AlertDetails {
+import java.io.Serializable;
+
+public class AlertDetails implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String eventType;
     private String address;
 
@@ -15,7 +19,7 @@ public class AlertDetails {
     }
 
     public String getAddress() {
-
         return address;
     }
+
 }

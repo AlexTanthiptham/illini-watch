@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 public class SmsReceiver extends BroadcastReceiver {
 
     private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
@@ -34,6 +36,10 @@ public class SmsReceiver extends BroadcastReceiver {
 
 
                             if (details != null) {
+                                Intent localIntent = new Intent("com.example.ACTION_SMS_ALERT");
+                                localIntent.putExtra("alertDetails", details); // Ensure AlertDetails is Serializable or Parcelable
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent);
+
                                 Log.d(TAG, details.getEventType());
                                 Log.d(TAG,details.getAddress());
 
@@ -70,7 +76,7 @@ public class SmsReceiver extends BroadcastReceiver {
         // Initialize as null; will stay null if the message doesn't match the criteria
         AlertDetails alertDetails = null;
 
-        Log.d(TAG, message);
+        //Log.d(TAG, message);
 
         // Check if the message starts with the specified prefix
         if (message.startsWith("Illini-Alert")) {
