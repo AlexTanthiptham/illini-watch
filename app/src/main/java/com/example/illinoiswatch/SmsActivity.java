@@ -34,6 +34,7 @@ public class SmsActivity extends AppCompatActivity {
                         Log.d(TAG,"test from activity "+ details.getAddress());
 
                     }
+
                 }
             }
 

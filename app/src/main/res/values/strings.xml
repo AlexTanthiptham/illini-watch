@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">IllinoisWatch</string>
+    <string name="channel_name_high_alert">High Alert Notifications</string>
+    <string name="channel_description_high_alert">Notifications for high priority alerts</string>
+
 </resources>
