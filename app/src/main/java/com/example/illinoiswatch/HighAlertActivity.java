@@ -32,10 +32,15 @@ public class HighAlertActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        createNotificationChannel();
+        setContentView(R.layout.alert_view);
+        ProgressBar distanceProgressBar = findViewById(R.id.distance_progress_bar);
+        distanceProgressBar.setMax(100); // Assuming the max distance is 1 mile, set max to 100 (as percentage)
+        distanceProgressBar.setProgress(20); // Set progress to 20 for 0.2 miles
+        //createNotificationChannel();
+    }
 
 
+        /*
         alertReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -57,7 +62,9 @@ public class HighAlertActivity extends Activity {
                 }
             }
         };
-    }
+
+         */
+
 
     private void createNotificationChannel() {
         // Create the NotificationChannel

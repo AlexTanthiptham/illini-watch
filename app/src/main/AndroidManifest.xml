@@ -35,7 +35,7 @@
 
 
         <activity
-            android:name=".HighAlertActivity"
+            android:name=".AlertDetailsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
