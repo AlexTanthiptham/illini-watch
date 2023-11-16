@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsFragment">
+
+    <!-- Box at the top -->
+    <LinearLayout
+        android:id="@+id/topBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F0F0F0"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Default Button -->
+        <Button
+            android:id="@+id/btnDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reset"
+            android:layout_weight="1"
+            />
+
+        <!-- Centered "Settings" Text -->
+        <TextView
+            android:id="@+id/text_dashboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            />
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+
+
+    <!-- Vertical LinearLayout for settings -->
+    <LinearLayout
+        android:id="@+id/settingsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/topBox"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Button -->
+        <Button
+            android:id="@+id/btnSettings1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Set Safety Radius"
+            android:padding="8dp"
+            />
+
+
+        <!-- Toggle Button with Text -->
+            <!-- Text for Setting 2 -->
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <!-- TextView on the left -->
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bypass do-not-disturb:" />
+
+            <!-- ToggleButton on the right -->
+            <ToggleButton
+                android:id="@+id/toggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="Off"
+                android:textOn="On"
+                android:checked="false"/>
+        </LinearLayout>
+
+
+        <!-- Phone Number -->
+        <TextView
+            android:id="@+id/phoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone Number"
+            android:layout_gravity="center_vertical"
+            android:paddingEnd="8dp"
+            />
+        <EditText
+            android:id="@+id/editTextNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Enter a number"
+            android:padding="8dp"
+            />
+
+        <!-- Address Input -->
+        <TextView
+            android:id="@+id/homeAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home Address"
+            android:layout_gravity="center_vertical"
+            android:paddingEnd="8dp"
+            />
+        <EditText
+            android:id="@+id/editTextText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Enter address"
+            android:padding="8dp"
+            />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
