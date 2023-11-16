@@ -85,7 +85,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         // Intent to open the app when the notification is tapped
-        Intent intent = new Intent(context, MainActivity.class); // Replace MainActivity with your activity
+        Intent intent = new Intent(context, AlertDetailsActivity.class); // Replace MainActivity with your activity
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
