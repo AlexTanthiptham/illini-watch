@@ -18,16 +18,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-
+import com.google.android.gms.maps.model.MarkerOptions; // <-- Add this line
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import android.widget.Toast;
 
 public class AlertsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -53,15 +46,25 @@ public class AlertsActivity extends FragmentActivity implements OnMapReadyCallba
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
-
-        // Fetch coordinates for the default location
-        fetchCoordinatesFromAddress("1406 W Green St, Urbana, IL 61801");
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
+
+        // Marker for the "Shots Fired" location
+        LatLng shotsFiredLocation = new LatLng(40.11030777742539, -88.23710727967605);
+        mMap.addMarker(new MarkerOptions().position(shotsFiredLocation).title("Shots Fired"));
+
+        // Set a click listener for the "Shots Fired" marker
+        mMap.setOnMarkerClickListener(marker -> {
+            if (marker.getTitle().equals("Shots Fired")) {
+                Toast.makeText(AlertsActivity.this, "shots fired. Leave area if safe to do so. Otherwise, secure your location. ", Toast.LENGTH_LONG).show();
+                return true;
+            }
+            return false;
+        });
 
         // Check for location permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -77,22 +80,42 @@ public class AlertsActivity extends FragmentActivity implements OnMapReadyCallba
         }
     }
 
+
     private void getUserLocationAndDrawCircle() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, location -> {
-                        // Got last known location
+                        // Check if location is not null
                         if (location != null) {
                             LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                            drawCircleOnMap(userLocation);
+
+                            // Move the camera to the user's location
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
+
+                            // Draw a circle around the user's location
+                            CircleOptions circleOptions = new CircleOptions()
+                                    .center(userLocation) // Center at user's location
+                                    .radius(radius) // 'radius' from the intent
+                                    .fillColor(0x30ff0000) // Adjust the color and transparency as needed
+                                    .strokeColor(Color.RED)
+                                    .strokeWidth(2);
+
+                            mMap.addCircle(circleOptions);
                         } else {
                             // Handle the situation when location is null
+                            Toast.makeText(AlertsActivity.this, "Location not found", Toast.LENGTH_LONG).show();
                         }
                     });
+        } else {
+            // Request location permission if not granted
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_LOCATION_REQUEST_CODE);
         }
     }
+
+
 
     private void drawCircleOnMap(LatLng location) {
         CircleOptions circleOptions = new CircleOptions()
@@ -123,58 +146,4 @@ public class AlertsActivity extends FragmentActivity implements OnMapReadyCallba
         }
     }
 
-    private void fetchCoordinatesFromAddress(final String address) {
-        new AsyncTask<Void, Void, LatLng>() {
-            @Override
-            protected LatLng doInBackground(Void... voids) {
-                try {
-                    String encodedAddress = URLEncoder.encode(address, "UTF-8");
-                    String urlString = "https://maps.googleapis.com/maps/api/geocode/json?address=" + encodedAddress + "&key=MAPS_API_KEY";
-                    URL url = new URL(urlString);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-
-                    InputStream in = new BufferedInputStream(connection.getInputStream());
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                    StringBuilder result = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        result.append(line);
-                    }
-
-                    // Close connections
-                    reader.close();
-                    connection.disconnect();
-
-                    // Extracting latitude and longitude from the JSON response
-                    JSONObject jsonResponse = new JSONObject(result.toString());
-                    double lat = jsonResponse.getJSONArray("results")
-                            .getJSONObject(0)
-                            .getJSONObject("geometry")
-                            .getJSONObject("location")
-                            .getDouble("lat");
-
-                    double lng = jsonResponse.getJSONArray("results")
-                            .getJSONObject(0)
-                            .getJSONObject("geometry")
-                            .getJSONObject("location")
-                            .getDouble("lng");
-
-                    return new LatLng(lat, lng);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            }
-
-            @Override
-            protected void onPostExecute(LatLng latLng) {
-                super.onPostExecute(latLng);
-                if (latLng != null) {
-                    // Use latLng for your map (e.g., setting markers or moving camera)
-                }
-            }
-        }.execute();
     }
-}
