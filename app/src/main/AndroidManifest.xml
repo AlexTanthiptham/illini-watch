@@ -35,13 +35,15 @@
 
 
         <activity
-            android:name=".navbar"
+            android:name=".HighAlertActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".navbar">
         </activity>
     </application>
 
