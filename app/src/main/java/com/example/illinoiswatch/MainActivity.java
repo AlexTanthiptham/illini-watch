@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
     }
 
-    // If you want to support the Up button in the ActionBar
-
     private AppBarConfiguration appBarConfiguration;
 
     @Override
