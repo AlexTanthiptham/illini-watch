@@ -16,7 +16,7 @@ public class navbar extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.navpage_view);
 
         // Set up the ActionBar with a Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
