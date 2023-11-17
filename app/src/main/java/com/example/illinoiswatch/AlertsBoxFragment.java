@@ -1,64 +1,74 @@
 package com.example.illinoiswatch;
-
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AlertsBoxFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AlertsBoxFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public AlertsBoxFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AlertsBoxFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AlertsBoxFragment newInstance(String param1, String param2) {
-        AlertsBoxFragment fragment = new AlertsBoxFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private TextView alertBoxText;
+    private TextView alertBoxTitle;
+    private TextView alertBoxTime;
+    private TextView alertBoxLocation;
+    private TextView alertBoxStatus;
+    private Button btnReadMore;
+    private Button btnShowLess;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_alerts_box, container, false);
+
+        alertBoxText = view.findViewById(R.id.alertBoxText);
+        alertBoxTitle = view.findViewById(R.id.alertBoxTitle);
+        alertBoxTime = view.findViewById(R.id.alertBoxTime);
+        alertBoxLocation = view.findViewById(R.id.alertBoxLocation);
+        alertBoxStatus = view.findViewById(R.id.alertBoxStatus);
+
+        btnReadMore = view.findViewById(R.id.btnReadMore);
+        btnShowLess = view.findViewById(R.id.btnShowLess);
+
+        // Set initial text
+        alertBoxText.setText("Placeholder Description");
+        alertBoxTitle.setText("Placeholder Title");
+        alertBoxTime.setText("Placeholder Time");
+        alertBoxLocation.setText("Placeholder Location");
+        alertBoxStatus.setText("Placeholder Status");
+        // Set click listeners
+        btnReadMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expandText();
+            }
+        });
+
+        btnShowLess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                collapseText();
+            }
+        });
+
+        return view;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_alerts_box, container, false);
+    private void expandText() {
+        // Expand the text view by setting max lines to a large number
+        alertBoxText.setMaxLines(Integer.MAX_VALUE);
+
+        // Toggle visibility of buttons
+        btnReadMore.setVisibility(View.GONE);
+        btnShowLess.setVisibility(View.VISIBLE);
+    }
+
+    private void collapseText() {
+        // Collapse the text view by setting max lines to 2
+        alertBoxText.setMaxLines(2);
+
+        // Toggle visibility of buttons
+        btnReadMore.setVisibility(View.VISIBLE);
+        btnShowLess.setVisibility(View.GONE);
     }
 }
