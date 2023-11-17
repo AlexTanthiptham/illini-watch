@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -42,7 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/read_more_button"
+        android:id="@+id/read_more_button1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -53,11 +52,11 @@
         app:layout_constraintHorizontal_bias="0.5"/>
 
     <Button
-        android:id="@+id/call_911_button"
+        android:id="@+id/call_911_button1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Call 911"
-        app:layout_constraintTop_toBottomOf="@id/read_more_button"
+        app:layout_constraintTop_toBottomOf="@id/read_more_button1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"/>
@@ -67,7 +66,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Call emergency contact"
-        app:layout_constraintTop_toBottomOf="@id/call_911_button"
+        app:layout_constraintTop_toBottomOf="@id/call_911_button1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"/>
@@ -99,12 +98,10 @@
         android:id="@+id/navigate_me_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:background="@color/black"
-        android:text="Navigate me"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="25dp"
+        android:text="Read More"
+        app:layout_constraintTop_toBottomOf="@id/distance_progress_bar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/distance_progress_bar" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

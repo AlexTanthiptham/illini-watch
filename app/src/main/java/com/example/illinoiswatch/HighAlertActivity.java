@@ -2,41 +2,38 @@ package com.example.illinoiswatch;
 
 import static android.content.ContentValues.TAG;
 
-import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ProgressBar;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-public class HighAlertActivity extends Activity {
+public class HighAlertActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "high_alert_channel";
     private static final int NOTIFICATION_ID = 1;
 
 
-    private BroadcastReceiver alertReceiver;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.alert_view);
+        setContentView(R.layout.alert_view); // Replace with your actual layout file name
+
+        // Set the seek bar to a fixed value, e.g. 2.17 miles
+        // Convert miles to progress as per your seek bar max value
         ProgressBar distanceProgressBar = findViewById(R.id.distance_progress_bar);
         distanceProgressBar.setMax(100); // Assuming the max distance is 1 mile, set max to 100 (as percentage)
-        distanceProgressBar.setProgress(20); // Set progress to 20 for 0.2 miles
-        //createNotificationChannel();
+        distanceProgressBar.setProgress(20);
     }
 
 
@@ -115,20 +112,4 @@ public class HighAlertActivity extends Activity {
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Register BroadcastReceiver
-        IntentFilter filter = new IntentFilter("com.example.ACTION_SMS_ALERT");
-        LocalBroadcastManager.getInstance(this).registerReceiver(alertReceiver, filter);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // Unregister BroadcastReceiver
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(alertReceiver);
-    }
 }
