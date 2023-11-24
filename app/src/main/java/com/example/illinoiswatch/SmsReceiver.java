@@ -19,6 +19,10 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class SmsReceiver extends BroadcastReceiver {
 
     private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
@@ -39,8 +43,15 @@ public class SmsReceiver extends BroadcastReceiver {
                         try {
                             SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdu);
                             String messageBody = smsMessage.getMessageBody();
+                            long timestampMillis = smsMessage.getTimestampMillis(); // Get the timestamp
+                            Date date = new Date(timestampMillis);
+                            SimpleDateFormat format = new SimpleDateFormat("h:mm a", Locale.getDefault()); // for example "9:15 AM"
+                            String formattedTime = format.format(date);
+
 
                             AlertDetails details = parseMessage(messageBody);
+                            details.setAlerttime(formattedTime); // Assuming AlertDetails has a method to set the time
+
 
 
                             if (details != null) {
@@ -50,7 +61,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
                                 Log.d(TAG, details.getEventType());
                                 Log.d(TAG, details.getAddress());
-                                showNotification(context, details.toString());
+                                showNotification(context, details.getEventType(),details.getAddress());
 
                             }
 
@@ -77,15 +88,15 @@ public class SmsReceiver extends BroadcastReceiver {
     }
 
 
-    private void showNotification(Context context, String message) {
+    private void showNotification(Context context, String event , String address) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "ALERTS_CHANNEL_ID")
                 .setSmallIcon(R.drawable.pigon) // Replace with your notification icon
-                .setContentTitle("New Alert")
-                .setContentText(message)
+                .setContentTitle("New Alert: " + event)
+                .setContentText("Happened in " + address)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         // Intent to open the app when the notification is tapped
-        Intent intent = new Intent(context, AlertDetailsActivity.class); // Replace MainActivity with your activity
+        Intent intent = new Intent(context, HighAlertActivity.class); // Replace MainActivity with your activity
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
@@ -139,7 +150,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 String eventType = extractEventType(eventDetails);
                 String address = extractAddress(eventDetails);
                 // Create a new AlertDetails object with the extracted information
-                alertDetails = new AlertDetails(eventType, address);
+                alertDetails = new AlertDetails(eventType, address ,message);
             }
         }
 

@@ -30,8 +30,10 @@ public class SmsActivity extends AppCompatActivity {
                 if ("com.example.ACTION_SMS_ALERT".equals(intent.getAction())) {
                     AlertDetails details = (AlertDetails) intent.getSerializableExtra("alertDetails");
                     if (details != null) {
-                        Log.d(TAG, "test from activity " + details.getEventType());
-                        Log.d(TAG,"test from activity "+ details.getAddress());
+                        Log.d(TAG, "The alert event type " + details.getEventType());
+                        Log.d(TAG,"The alert address "+ details.getAddress());
+                        Log.d(TAG,"The message of the alert "+ details.getMessage());
+                        Log.d(TAG,"The time of the alert"+ details.getAlerttime());
 
                     }
 
