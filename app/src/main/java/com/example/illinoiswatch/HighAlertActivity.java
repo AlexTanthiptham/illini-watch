@@ -21,6 +21,7 @@ public class HighAlertActivity extends AppCompatActivity {
     private Button NavButton;
     private Button Call_911;
     private Button call_emergency;
+    private TextView time;
 
     private BroadcastReceiver alertReceiver;
     private TextView alert_description;
@@ -38,6 +39,7 @@ public class HighAlertActivity extends AppCompatActivity {
         call_emergency = findViewById(R.id.call_emergency_contact_button);
         Call_911 = findViewById(R.id.call_911_button);
         navigate = findViewById(R.id.navigate_me_button);
+        time = findViewById(R.id.timeText);
 
 
         
@@ -52,6 +54,7 @@ public class HighAlertActivity extends AppCompatActivity {
                         Log.d(TAG, "test from activity " + details.getEventType());
                         Log.d(TAG,"test from activity "+ details.getAddress());
                         alert_description.setText(details.getMessage());
+                        time.setText(details.getAlerttime());
 
 
                     }

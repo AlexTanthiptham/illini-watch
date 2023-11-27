@@ -1,15 +1,20 @@
 package com.example.illinoiswatch;
 
+import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.os.AsyncTask;
-import android.os.Bundle;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -18,9 +23,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions; // <-- Add this line
-import org.json.JSONObject;
-import android.widget.Toast;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
 
 public class AlertsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -28,6 +34,8 @@ public class AlertsActivity extends FragmentActivity implements OnMapReadyCallba
     private FusedLocationProviderClient fusedLocationClient;
     private int radius; // The radius value from MapsActivity
     private static final int MY_LOCATION_REQUEST_CODE = 1;
+    private BroadcastReceiver alertReceiver;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +58,51 @@ public class AlertsActivity extends FragmentActivity implements OnMapReadyCallba
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        String addressString = "505 S 5th St, Champaign, IL 61820";
+        Geocoder geocoder = new Geocoder(this);
+
+        /*
+        alertReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d(TAG, "test from activity" );
+
+                if ("com.example.ACTION_SMS_ALERT".equals(intent.getAction())) {
+                    AlertDetails details = (AlertDetails) intent.getSerializableExtra("alertDetails");
+                    if (details != null) {
+                        String addressString = details.getAddress();
+                        Log.d(TAG, "The alert event type " + details.getEventType());
+                        Log.d(TAG,"The alert address "+ details.getAddress());
+                        Log.d(TAG,"The message of the alert "+ details.getMessage());
+                        Log.d(TAG,"The time of the alert"+ details.getAlerttime());
+
+                    }
+
+                }
+            }
+
+        };
+
+         */
+
+
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
-        // Marker for the "Shots Fired" location
-        LatLng shotsFiredLocation = new LatLng(40.11030777742539, -88.23710727967605);
-        mMap.addMarker(new MarkerOptions().position(shotsFiredLocation).title("Shots Fired"));
 
+
+        try {
+            List<Address> addresses = geocoder.getFromLocationName(addressString, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                LatLng shotsFiredLocation= new LatLng(address.getLatitude(), address.getLongitude());
+
+                // Add a marker and move the camera
+                mMap.addMarker(new MarkerOptions().position(shotsFiredLocation).title("Shots Fired"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         // Set a click listener for the "Shots Fired" marker
         mMap.setOnMarkerClickListener(marker -> {
             if (marker.getTitle().equals("Shots Fired")) {
