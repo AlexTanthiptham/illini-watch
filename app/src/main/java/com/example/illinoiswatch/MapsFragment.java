@@ -1,12 +1,13 @@
 package com.example.illinoiswatch;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.maps.GoogleMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +28,12 @@ public class MapsFragment extends Fragment {
     public MapsFragment() {
         // Required empty public constructor
     }
+
+    public interface OnMapInteractionListener {
+        void onMapReady(GoogleMap googleMap);
+    }
+
+    private OnMapInteractionListener mListener;
 
     /**
      * Use this factory method to create a new instance of

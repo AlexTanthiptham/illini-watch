@@ -3,6 +3,7 @@ package com.example.illinoiswatch;
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -190,6 +192,21 @@ public class AlertsActivity extends FragmentActivity implements OnMapReadyCallba
                 // Show an explanation to the user
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Register BroadcastReceiver
+        IntentFilter filter = new IntentFilter("com.example.ACTION_SMS_ALERT");
+        LocalBroadcastManager.getInstance(this).registerReceiver(alertReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Unregister BroadcastReceiver
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(alertReceiver);
     }
 
     }
