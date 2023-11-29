@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.Circle;
 
 import android.widget.TextView;
 import android.content.SharedPreferences;
+import android.widget.Button;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener {
 
@@ -51,22 +52,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         radiusTextView = findViewById(R.id.radiusTextView);
         // Initialize SeekBar and set up listener
         radiusSeekBar = findViewById(R.id.radiusSeekBar);
+
+        // Initialize and handle the Save button
+        Button btnSaveRadius = findViewById(R.id.btnSaveRadius);
+        btnSaveRadius.setOnClickListener(v -> {
+            int radiusInMeters = radiusSeekBar.getProgress(); // Radius in meters
+            SharedPreferences sharedPref = getSharedPreferences("AppSettings", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putInt("radius", radiusInMeters);
+            editor.apply();
+
+            finish(); // Close this activity and return to the previous one
+        });
+
         radiusSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (mapCircle != null) {
                     mapCircle.setRadius(progress);
                 }
-                // Update TextView to reflect the current radius
-                radiusTextView.setText("Radius: " + progress + "m");
 
-                // Save the radius in SharedPreferences
-                SharedPreferences sharedPref = getSharedPreferences("AppSettings", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putInt("radius", progress);
-                editor.apply();
+                double radiusInMiles = progress * 0.000621371; // Convert meters to miles for display
+                radiusTextView.setText("Radius: " + String.format("%.2f miles", radiusInMiles));
+
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 // Optional: Add code for when the user starts dragging the slider
