@@ -25,6 +25,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_head1"
+                android:maxLines="1"
                 android:text="Notification Title" />
             <TextView
                 android:id="@+id/alertBoxLocation"
@@ -32,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_head2"
+                android:maxLines="1"
                 android:text="Location" />
         </LinearLayout>
         <LinearLayout
@@ -45,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_head2"
+                android:maxLines="1"
                 android:text="Status" />
             <TextView
                 android:id="@+id/alertBoxTime"
@@ -52,10 +55,9 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_head2"
+                android:maxLines="1"
                 android:text="Time" />
         </LinearLayout>
-
-
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -76,7 +78,7 @@
             android:ellipsize="end"
             android:padding="8dp"
             android:layout_margin="8dp"
-            android:text="Notification text goes here" />
+            android:text="Description goes here" />
 
         <Button
             android:id="@+id/btnReadMore"
@@ -85,18 +87,6 @@
             android:backgroundTint="@color/secondary"
             android:layout_below="@id/alertBoxText"
             android:layout_marginTop="8dp"
-            android:text="Read more" />
-
-        <Button
-            android:id="@+id/btnShowLess"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/secondary"
-            android:layout_below="@id/alertBoxText"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            android:text="Show less" />
-
+            android:text="Details" />
     </LinearLayout>
-
 </LinearLayout>

@@ -15,7 +15,6 @@ public class AlertsBoxFragment extends Fragment {
     private TextView alertBoxLocation;
     private TextView alertBoxStatus;
     private Button btnReadMore;
-    private Button btnShowLess;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,8 +27,6 @@ public class AlertsBoxFragment extends Fragment {
         alertBoxStatus = view.findViewById(R.id.alertBoxStatus);
 
         btnReadMore = view.findViewById(R.id.btnReadMore);
-        btnShowLess = view.findViewById(R.id.btnShowLess);
-
         // Set initial text
         alertBoxText.setText("Placeholder Description");
         alertBoxTitle.setText("Placeholder Title");
@@ -44,31 +41,10 @@ public class AlertsBoxFragment extends Fragment {
             }
         });
 
-        btnShowLess.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                collapseText();
-            }
-        });
-
         return view;
     }
 
     private void expandText() {
-        // Expand the text view by setting max lines to a large number
-        alertBoxText.setMaxLines(Integer.MAX_VALUE);
-
-        // Toggle visibility of buttons
-        btnReadMore.setVisibility(View.GONE);
-        btnShowLess.setVisibility(View.VISIBLE);
     }
 
-    private void collapseText() {
-        // Collapse the text view by setting max lines to 2
-        alertBoxText.setMaxLines(2);
-
-        // Toggle visibility of buttons
-        btnReadMore.setVisibility(View.VISIBLE);
-        btnShowLess.setVisibility(View.GONE);
-    }
 }
