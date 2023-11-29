@@ -108,9 +108,8 @@
         <!-- Toggle Button with Text -->
         <!-- Text for Setting 2 -->
         <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="83dp"
             android:orientation="horizontal">
 
             <!-- TextView on the left -->
@@ -119,29 +118,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="10dp"
-                android:textSize="15sp"
-                android:text="Bypass do-not-disturb:" />
+                android:text="Bypass do-not-disturb:"
+                android:textSize="15sp" />
 
             <!-- ToggleButton on the right -->
             <ToggleButton
                 android:id="@+id/toggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="false"
                 android:textOff="Off"
-                android:textOn="On"
-                android:checked="false"/>
+                android:textOn="On" />
         </LinearLayout>
 
         <!-- Button -->
+
+        <TextView
+            android:id="@+id/textViewSafetyRadius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Safety Radius: 0 miles"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        />
         <Button
             android:id="@+id/btnSettings1"
-            android:layout_width="300dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/secondary"
-            android:textSize="@dimen/text_head3"
-            android:text="Set Safety Radius"
-            android:padding="8dp"
-            android:layout_margin="20dp"
-            />
+            android:text="Change Safety Radius" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
