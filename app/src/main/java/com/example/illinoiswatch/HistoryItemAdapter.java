@@ -1,6 +1,7 @@
 package com.example.illinoiswatch;
 
 // HistoryItemAdapter.java
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -42,11 +45,46 @@ public class HistoryItemAdapter extends RecyclerView.Adapter<HistoryItemAdapter.
         // Handle "Read More" button click
         holder.btnReadMore.setOnClickListener(v -> {
             // PLACEHOLDER INTERACTION
-            // TODO: Route to map location of the thing
-
             Toast.makeText(v.getContext(), "Read More clicked for " + dataAlert.getTitle(), Toast.LENGTH_SHORT).show();
+
+            // TODO: Uncomment when merged
+            // Navigate to MapsFragment and pass the _id of the DataAlert
+            // navigateToMapsFragment(v, dataAlert.getId());
         });
     }
+
+    // Helper method to navigate to MapsFragment
+    private void navigateToMapsFragment(View view, int dataAlertId) {
+        // Get the NavController
+        NavController navController = Navigation.findNavController(view);
+
+        // Create a bundle to pass dataAlertId to MapsFragment
+        Bundle bundle = new Bundle();
+        bundle.putInt("dataAlertId", dataAlertId);
+
+        // Navigate to MapsFragment
+        navController.navigate(R.id.navigation_maps, bundle);
+    }
+
+    // TODO: Include the below block in the merged MapsFragment to retrieve the _id
+    //    @Override
+    //    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    //        View view = inflater.inflate(R.layout.fragment_maps, container, false);
+    //
+    //        // Retrieve the _id from the bundle
+    //        Bundle bundle = getArguments();
+    //        if (bundle != null && bundle.containsKey("dataAlertId")) {
+    //            int dataAlertId = bundle.getInt("dataAlertId");
+    //
+    //            // Now you have the dataAlertId, and you can use it as needed
+    //            // For example, you can use it to display the corresponding location on the map
+    //        }
+    //
+    //        // ... (rest of your code)
+    //
+    //        return view;
+    //    }
+
 
     @Override
     public int getItemCount() {
