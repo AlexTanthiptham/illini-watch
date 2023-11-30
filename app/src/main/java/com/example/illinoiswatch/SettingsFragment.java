@@ -42,20 +42,31 @@ public class SettingsFragment extends Fragment {
             SharedPreferences sharedPref = getActivity().getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
             int radiusInMeters = sharedPref.getInt("radius", 100); // Default value
             double radiusInMiles = radiusInMeters * 0.000621371; // Convert meters to miles
-            // Use radiusInMiles as needed
-        }
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putFloat("radiusMiles", (float) radiusInMiles);
+            editor.apply();        }
 
-        // Example of handling toggle button state change
-        toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // Handle the state change of the toggle button
-            // isChecked will be true if the toggle is ON, false if OFF
-            // Add your logic here
-        });
 
         Button buttonSave = view.findViewById(R.id.btnSave);
         buttonSave.setOnClickListener(v -> {
-            // Handle save action
-        });
+            if (getActivity() != null) {
+                SharedPreferences sharedPref = getActivity().getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+
+                // Handle radius
+                try {
+                    int radiusInMeters = Integer.parseInt(editTextNumber.getText().toString()); // Replace with your actual radius input field
+                    double radiusInMiles = radiusInMeters * 0.000621371;
+                    editor.putInt("radius", radiusInMeters);
+                    editor.putFloat("radiusMiles", (float) radiusInMiles);
+                } catch (NumberFormatException e) {
+                    // Handle invalid radius input
+                }
+
+                editor.apply();
+            }        });
+
+
 
         updateRadiusDisplay();
 
@@ -74,7 +85,14 @@ public class SettingsFragment extends Fragment {
             int radiusInMeters = sharedPref.getInt("radius", 100); // Default value in meters
             double radiusInMiles = radiusInMeters * 0.000621371; // Convert meters to miles for display
             textViewSafetyRadius.setText(String.format("Safety Radius: %.2f miles", radiusInMiles));
+
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putFloat("radiusMiles", (float) radiusInMiles);
+            editor.apply();
         }
     }
+
+
+
 
 }

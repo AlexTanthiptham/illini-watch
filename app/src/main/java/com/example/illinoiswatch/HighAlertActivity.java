@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +27,8 @@ public class HighAlertActivity extends AppCompatActivity {
 
     private BroadcastReceiver alertReceiver;
     private TextView alert_description;
-    private Button navigate;
+
+    private TextView distance_text;
 
 
 
@@ -35,12 +37,16 @@ public class HighAlertActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alert_view); // Replace with your actual layout file name
 
+        SharedPreferences sharedPref = getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
+        float radiusInMiles = sharedPref.getFloat("radiusMiles", 0.0f); // Default value if not set
+
+
         NavButton = findViewById(R.id.read_more_button);
         AlertTitle = findViewById(R.id.notification_title);
+        distance_text = findViewById(R.id.distance_text);
         alert_description = findViewById(R.id.Description);
         call_emergency = findViewById(R.id.call_emergency_contact_button);
         Call_911 = findViewById(R.id.call_911_button);
-        navigate = findViewById(R.id.navigate_me_button);
         time = findViewById(R.id.timeText);
 
 
@@ -53,8 +59,6 @@ public class HighAlertActivity extends AppCompatActivity {
                 if ("com.example.ACTION_SMS_ALERT".equals(intent.getAction())) {
                     AlertDetails details = (AlertDetails) intent.getSerializableExtra("alertDetails");
                     if (details != null) {
-                        Log.d(TAG, "test from activity " + details.getEventType());
-                        Log.d(TAG,"test from activity "+ details.getAddress());
                         AlertTitle.setText(details.getEventType());
                         alert_description.setText(details.getMessage());
                         time.setText(details.getAlerttime());
@@ -67,10 +71,14 @@ public class HighAlertActivity extends AppCompatActivity {
 
         };
 
+        // set the distance away from the alert
+        distance_text.setText("0.2 mile away from the alert");
+
 
         ProgressBar distanceProgressBar = findViewById(R.id.distance_progress_bar);
-        distanceProgressBar.setMax(100); // Assuming the max distance is 1 mile, set max to 100 (as percentage)
-        distanceProgressBar.setProgress(80);
+        int display = (int) (radiusInMiles * 10);
+        distanceProgressBar.setMax(display); // Assuming the max distance is 1 mile, set max to 100 (as percentage)
+        distanceProgressBar.setProgress(1);
         NavButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,13 +88,6 @@ public class HighAlertActivity extends AppCompatActivity {
         });
 
 
-        navigate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AlertsActivity.class);
-                startActivity(intent);
-            }
-        });
 
 
 
