@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_alerts"
-        android:name="com.example.illinoiswatch.AlertsFragment"
+        android:name="com.example.illinoiswatch.HistoryFragment"
         android:label="@string/title_alerts"
-        tools:layout="@layout/fragment_alerts" />
+        tools:layout="@layout/fragment_history" />
 </navigation>

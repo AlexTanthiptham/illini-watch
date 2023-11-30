@@ -20,18 +20,20 @@
             android:layout_weight="1"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/alertBoxTitle"
+                android:id="@+id/titleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_head1"
+                android:maxLines="1"
                 android:text="Notification Title" />
             <TextView
-                android:id="@+id/alertBoxLocation"
+                android:id="@+id/locationTextview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_head2"
+                android:textSize="@dimen/text_head3"
+                android:lines="2"
                 android:text="Location" />
         </LinearLayout>
         <LinearLayout
@@ -40,22 +42,22 @@
             android:layout_weight="1"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/alertBoxStatus"
+                android:id="@+id/statusTextview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_head2"
+                android:textSize="@dimen/text_head3"
+                android:lines="2"
                 android:text="Status" />
             <TextView
-                android:id="@+id/alertBoxTime"
+                android:id="@+id/timeTextview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_head2"
+                android:textSize="@dimen/text_small"
+                android:lines="2"
                 android:text="Time" />
         </LinearLayout>
-
-
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -68,35 +70,21 @@
         >
 
         <TextView
-            android:id="@+id/alertBoxText"
+            android:id="@+id/descTextview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:maxLines="2"
             android:ellipsize="end"
             android:padding="8dp"
             android:layout_margin="8dp"
-            android:text="Notification text goes here" />
+            android:text="Description goes here" />
 
         <Button
             android:id="@+id/btnReadMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/secondary"
-            android:layout_below="@id/alertBoxText"
+            android:layout_below="@id/descTextview"
             android:layout_marginTop="8dp"
-            android:text="Read more" />
-
-        <Button
-            android:id="@+id/btnShowLess"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/secondary"
-            android:layout_below="@id/alertBoxText"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            android:text="Show less" />
-
+            android:text="View on Map" />
     </LinearLayout>
-
 </LinearLayout>
