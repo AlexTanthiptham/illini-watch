@@ -45,11 +45,11 @@ public class HistoryItemAdapter extends RecyclerView.Adapter<HistoryItemAdapter.
         // Handle "Read More" button click
         holder.btnReadMore.setOnClickListener(v -> {
             // PLACEHOLDER INTERACTION
-            Toast.makeText(v.getContext(), "Read More clicked for " + dataAlert.getTitle(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(v.getContext(), "Read More clicked for " + dataAlert.getTitle(), Toast.LENGTH_SHORT).show();
 
             // TODO: Uncomment when merged
             // Navigate to MapsFragment and pass the _id of the DataAlert
-            // navigateToMapsFragment(v, dataAlert.getId());
+             navigateToMapsFragment(v, dataAlert.get_id());
         });
     }
 

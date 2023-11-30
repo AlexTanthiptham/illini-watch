@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_head3"
-                android:maxLines="2"
+                android:lines="2"
                 android:text="Location" />
         </LinearLayout>
         <LinearLayout
@@ -47,15 +47,15 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_head3"
-                android:maxLines="2"
+                android:lines="2"
                 android:text="Status" />
             <TextView
                 android:id="@+id/timeTextview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_head3"
-                android:maxLines="2"
+                android:textSize="@dimen/text_small"
+                android:lines="2"
                 android:text="Time" />
         </LinearLayout>
     </LinearLayout>

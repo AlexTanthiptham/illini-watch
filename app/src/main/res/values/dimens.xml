@@ -1,5 +1,6 @@
 <resources>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="text_small">12sp</dimen>
     <dimen name="text_normal">15sp</dimen>
     <dimen name="text_head1">30sp</dimen>
     <dimen name="text_head2">25sp</dimen>
