@@ -42,7 +42,8 @@ public class HistoryItemAdapter extends RecyclerView.Adapter<HistoryItemAdapter.
         // Handle "Read More" button click
         holder.btnReadMore.setOnClickListener(v -> {
             // PLACEHOLDER INTERACTION
-            // TO DO: Route to HighAlertActivity and display that data
+            // TODO: Route to map location of the thing
+
             Toast.makeText(v.getContext(), "Read More clicked for " + dataAlert.getTitle(), Toast.LENGTH_SHORT).show();
         });
     }

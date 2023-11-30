@@ -73,8 +73,6 @@
             android:id="@+id/descTextview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:maxLines="2"
             android:ellipsize="end"
             android:padding="8dp"
             android:layout_margin="8dp"
@@ -87,6 +85,6 @@
             android:backgroundTint="@color/secondary"
             android:layout_below="@id/descTextview"
             android:layout_marginTop="8dp"
-            android:text="Details" />
+            android:text="View on Map" />
     </LinearLayout>
 </LinearLayout>
