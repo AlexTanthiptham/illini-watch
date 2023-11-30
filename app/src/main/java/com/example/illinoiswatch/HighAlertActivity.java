@@ -22,6 +22,7 @@ public class HighAlertActivity extends AppCompatActivity {
     private Button Call_911;
     private Button call_emergency;
     private TextView time;
+    private TextView AlertTitle;
 
     private BroadcastReceiver alertReceiver;
     private TextView alert_description;
@@ -35,6 +36,7 @@ public class HighAlertActivity extends AppCompatActivity {
         setContentView(R.layout.alert_view); // Replace with your actual layout file name
 
         NavButton = findViewById(R.id.read_more_button);
+        AlertTitle = findViewById(R.id.notification_title);
         alert_description = findViewById(R.id.Description);
         call_emergency = findViewById(R.id.call_emergency_contact_button);
         Call_911 = findViewById(R.id.call_911_button);
@@ -53,6 +55,7 @@ public class HighAlertActivity extends AppCompatActivity {
                     if (details != null) {
                         Log.d(TAG, "test from activity " + details.getEventType());
                         Log.d(TAG,"test from activity "+ details.getAddress());
+                        AlertTitle.setText(details.getEventType());
                         alert_description.setText(details.getMessage());
                         time.setText(details.getAlerttime());
 
