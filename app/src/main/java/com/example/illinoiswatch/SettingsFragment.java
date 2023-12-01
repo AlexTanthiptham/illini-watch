@@ -24,8 +24,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-
-        toggleButton = view.findViewById(R.id.toggleButton);
+        toggleButton = view.findViewById(R.id.toggleDND);
         editTextNumber = view.findViewById(R.id.editTextNumber);
         editTextAddress = view.findViewById(R.id.editTextText);
         textViewSafetyRadius = view.findViewById(R.id.textViewSafetyRadius); // Correctly placed
@@ -46,8 +45,34 @@ public class SettingsFragment extends Fragment {
             editor.putFloat("radiusMiles", (float) radiusInMiles);
             editor.apply();        }
 
+        Button buttonReset = view.findViewById(R.id.btnReset);
+        buttonReset.setOnClickListener(v -> {
+            // Reset all values back to default
+            if (getActivity() != null) {
+                SharedPreferences sharedPref = getActivity().getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
 
-        Button buttonSave = view.findViewById(R.id.btnSave);
+                // Reset toggle button to default state
+                toggleButton.setChecked(false);
+
+                // Reset editTextNumber to default value
+                editTextNumber.setText("");
+
+                // Reset editTextAddress to default value
+                editTextAddress.setText("");
+
+                // Reset other values as needed
+
+                // Apply changes
+                editor.apply();
+
+                // Update radius display
+                updateRadiusDisplay();
+            }
+        });
+
+
+        Button buttonSave = view.findViewById(R.id.toggleDND);
         buttonSave.setOnClickListener(v -> {
             if (getActivity() != null) {
                 SharedPreferences sharedPref = getActivity().getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
@@ -65,8 +90,6 @@ public class SettingsFragment extends Fragment {
 
                 editor.apply();
             }        });
-
-
 
         updateRadiusDisplay();
 
