@@ -29,6 +29,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.List;
 import android.graphics.Color;
+import android.util.Pair; // Import Pair class
+import java.util.ArrayList; // Add this import for ArrayList
+import java.util.List; // Import List if it's not already imported
+import android.util.Pair; // Import Pair class
 
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
@@ -36,7 +40,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
     private static final int MY_LOCATION_REQUEST_CODE = 1;
-    private LatLng currentUserLocation; // To store the current user location
+    private LatLng currentUserLocation;
+    private List<Pair<String, String>> addresses; // Declare addresses here
 
     public MapsFragment() {
         // Required empty public constructor
@@ -48,6 +53,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        addresses = new ArrayList<>(); // Initialize addresses here
     }
 
     @Override
@@ -76,7 +82,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_LOCATION_REQUEST_CODE);
         }
 
-        addShotsFiredMarker();
+        addresses.clear(); // Clear previous data
+        addresses.add(new Pair<>("South 3rd Street & East Green Street, Champaign", "Fire"));
+        addresses.add(new Pair<>("408 E Green St, Champaign, IL 61820", "Robbery"));
+        addresses.add(new Pair<>("1409 W Green St, Urbana, IL 61801", "Goose Attack"));
+        addresses.add(new Pair<>("505 S Mathews Ave, Urbana, IL 61801", "Chemical Spill"));
+        addresses.add(new Pair<>("611 W Park St, Urbana, IL 61801", "Power Outage"));
+        addresses.add(new Pair<>("201 N Goodwin Ave, Urbana, IL 61801", "Banana Peel"));
+
+        addMultipleMarkers(addresses);
     }
 
     private void getUserLocationAndDrawCircle() {
@@ -97,6 +111,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
+    @Override
     public void onResume() {
         super.onResume();
         if (mMap != null && getContext() != null) {
@@ -105,11 +120,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             if (currentUserLocation != null) {
                 drawCircleOnMap(currentUserLocation, radius);
             }
+            addMultipleMarkers(addresses); // Now 'addresses' is accessible here
         }
     }
     private void drawCircleOnMap(LatLng location, int radius) {
         if (mMap != null) {
             mMap.clear(); // Clear existing map overlays
+            addMultipleMarkers(addresses); // Now 'addresses' is accessible here
 
             CircleOptions circleOptions = new CircleOptions()
                     .center(location)
@@ -119,8 +136,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     .strokeWidth(2);
 
             mMap.addCircle(circleOptions);
-
-            addShotsFiredMarker();
         }
     }
 
@@ -139,21 +154,33 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             }
         }
     }
-    private void addShotsFiredMarker() {
-        // Define the method logic here
-        String addressString = "South 3rd Street & East Green Street, Champaign";
+    private void addMultipleMarkers(List<Pair<String, String>> addresses) {
         Geocoder geocoder = new Geocoder(getActivity());
+        for (Pair<String, String> addressTitlePair : addresses) {
+            String addressString = addressTitlePair.first;
+            String title = addressTitlePair.second;
 
-        try {
-            List<Address> addresses = geocoder.getFromLocationName(addressString, 1);
-            if (addresses != null && !addresses.isEmpty()) {
-                Address address = addresses.get(0);
-                LatLng shotsFiredLocation = new LatLng(address.getLatitude(), address.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(shotsFiredLocation).title("Shots Fired"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(shotsFiredLocation, 15));
+            try {
+                List<Address> addressesList = geocoder.getFromLocationName(addressString, 1);
+                if (addressesList != null && !addressesList.isEmpty()) {
+                    Address address = addressesList.get(0);
+                    LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
+                    mMap.addMarker(new MarkerOptions().position(location).title(title));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+
+        if (!addresses.isEmpty()) {
+            try {
+                Address firstAddress = geocoder.getFromLocationName(addresses.get(0).first, 1).get(0);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(firstAddress.getLatitude(), firstAddress.getLongitude()), 15));
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception or notify the user
+            }
         }
     }
+
 }
