@@ -4,12 +4,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#FFD2D2D2</color>
+    <color name="red">#b12323</color>
+
     <!--Illini Blue-->
     <color name="primary">#FF13294B</color>
     <color name="primary2">#FF1E3877</color>
     <!--Illini Orange, Desaturated-->
     <color name="secondary">#FFF5821E</color>
     <color name="secondary2">#FFE56E15</color>
+
 
 
 </resources>
