@@ -142,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textOff="Imperial (mi)"
-                android:textOn="Imperial (mi) "
+                android:textOn="Still Imperial (mi)"
                 android:checked="false"/>
         </LinearLayout>
         <!--DND Bypass-->
