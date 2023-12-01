@@ -172,9 +172,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     // Check for specific title to change color
                     if ("Shots Fired".equals(title)) {
                         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                    } else {
+                    }
+                    else {
                     // Blue color for other markers
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
                 }
 
 
