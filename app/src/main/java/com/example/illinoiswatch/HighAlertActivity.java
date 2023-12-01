@@ -78,7 +78,7 @@ public class HighAlertActivity extends AppCompatActivity {
         ProgressBar distanceProgressBar = findViewById(R.id.distance_progress_bar);
         int display = (int) (radiusInMiles * 10);
         distanceProgressBar.setMax(display); // Assuming the max distance is 1 mile, set max to 100 (as percentage)
-        distanceProgressBar.setProgress(1);
+        distanceProgressBar.setProgress(3);
         NavButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
