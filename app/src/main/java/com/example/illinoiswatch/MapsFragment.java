@@ -33,6 +33,8 @@ import android.util.Pair; // Import Pair class
 import java.util.ArrayList; // Add this import for ArrayList
 import java.util.List; // Import List if it's not already imported
 import android.util.Pair; // Import Pair class
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
@@ -83,7 +85,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
 
         addresses.clear(); // Clear previous data
-        addresses.add(new Pair<>("South 3rd Street & East Green Street, Champaign", "Fire"));
+        addresses.add(new Pair<>("South 3rd Street & East Green Street, Champaign", "Shots Fired"));
         addresses.add(new Pair<>("408 E Green St, Champaign, IL 61820", "Robbery"));
         addresses.add(new Pair<>("1409 W Green St, Urbana, IL 61801", "Goose Attack"));
         addresses.add(new Pair<>("505 S Mathews Ave, Urbana, IL 61801", "Chemical Spill"));
@@ -165,7 +167,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 if (addressesList != null && !addressesList.isEmpty()) {
                     Address address = addressesList.get(0);
                     LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(location).title(title));
+                    MarkerOptions markerOptions = new MarkerOptions().position(location).title(title);
+
+                    // Check for specific title to change color
+                    if ("Shots Fired".equals(title)) {
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                    } else {
+                    // Blue color for other markers
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                }
+
+
+                mMap.addMarker(markerOptions);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
